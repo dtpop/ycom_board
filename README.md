@@ -10,7 +10,7 @@ Das Board ist ein einfaches Plugin, um ein einfaches Messageboard für die YCom 
 Installation
 ------------
 
-* Die Dateien in das Verzeichnis redaxo/src/addons/ycom/plugin/board kopieren
+* Die Dateien in das Verzeichnis redaxo/src/addons/ycom/plugins/board kopieren
 * Über die AddOn Verwaltung das AddOn installieren. Die notwendigen Datenbanktabellen werden dabei angelegt
 * Bei Bedarf das Modul über den Menüpunkt im Backend Community/Einstellungen dann im Reiter YCom Board installieren
 * Auf den Seiten, auf denen das Board verwendet werden soll das Modul platzieren.
