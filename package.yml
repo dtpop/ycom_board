@@ -1,0 +1,10 @@
+package: ycom/board
+version: '3.0dev'
+author: Yakamara Media GmbH & Co. KG
+supportpage: www.redaxo.org/de/forum
+title: 'Board'
+nav_icon: fa-plus
+description: 'translate:ycom_board_plugin'
+page:
+    title: 'translate:ycom_board_title'
+    hidden: false
