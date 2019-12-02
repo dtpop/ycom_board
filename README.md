@@ -27,7 +27,7 @@ Es können innerhalb einer Seite neue Themen im Board erstellt werden und hierau
 Es muss noch ein E-Mail Template erstellt werden, das für die Benachrichtigung bei neuen Beiträgen verwendet wird.
 
 ---------
-
+```
 Guten Tag REX_YFORM_DATA[field="username"],
 
 Sie haben die automatische Benachrichtigung für neue Einträge im Messageboard bei Vielfalt Schule eingerichtet.
@@ -37,6 +37,7 @@ Zum Thema "REX_YFORM_DATA[field='thread_title']" gibt es einen neuen Eintrag.
 <?= trim(rex::getServer(),'/') ?>REX_YFORM_DATA[field="post_url"]
 
 Sie können die automatische Benachrichtigung abstellen, indem Sie sich im Board einloggen und beim entsprechenden Thread auf "Benachrichtigung abstellen" klicken.
+```
 
 ---------
 
