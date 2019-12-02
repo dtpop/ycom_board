@@ -47,6 +47,4 @@ In der YCom muss eine Gruppe erstellt werden, die als Board Admin Gruppe im Modu
 Credits
 -------
 
-Die Portierung des AddOns von R4 nach R5 wurde zum großen Teil finanziert durch
-Polarpixel
-Thomas Rotzek
+Die Portierung des AddOns von R4 nach R5 wurde zum großen Teil finanziert durch Polarpixel und Thomas Rotzek
