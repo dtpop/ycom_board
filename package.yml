@@ -1,10 +1,19 @@
-package: ycom/board
+package: ycom_board
 version: '3.0dev'
 author: Yakamara Media GmbH & Co. KG
 supportpage: www.redaxo.org/de/forum
-title: 'Board'
+title: 'YCom Board'
 nav_icon: fa-plus
 description: 'translate:ycom_board_plugin'
 page:
     title: 'translate:ycom_board_title'
     hidden: false
+    pjax: true    
+    subpages:
+        settings: { title: 'Einstellungen' }
+        setup: { title: 'Setup', perm: admin }
+        info: { title: 'Info', itemclass: pull-right }
+requires:
+    packages:
+        ycom: '>3'
+    

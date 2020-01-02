@@ -9,6 +9,6 @@
 $REX['ADDON']['install']['board'] = 0;
 
 $i = rex_sql::factory();
-$i->setQuery("DELETE FROM `rex_xform_table` where `table_name`='rex_com_board_post';");
-$i->setQuery("DELETE FROM `rex_xform_field` where `table_name`='rex_com_board_post';");
+$i->setQuery("DELETE FROM `rex_yform_table` where `table_name`='rex_ycom_board_post';");
+$i->setQuery("DELETE FROM `rex_yform_field` where `table_name`='rex_ycom_board_post';");
 $info = rex_generateAll();

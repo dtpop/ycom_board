@@ -60,8 +60,6 @@ class rex_ycom_board_thread extends rex_ycom_board_post
             return;
         }
         
-//        dump($this->getId()); exit;
-        
         $sql = rex_sql::factory();
         $sql->setTable('rex_ycom_board_thread_notification');
         $sql->setValue('thread_id', $this->getId());

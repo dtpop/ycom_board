@@ -16,7 +16,7 @@ $select = new rex_select();
 $select->setName('VALUE[3]');
 $select->setSize(1);
 $select->addOption('–', 0);
-$select->addSqlOptions('SELECT name, name FROM rex_xform_email_template ORDER BY name');
+$select->addSqlOptions('SELECT name, name FROM rex_yform_email_template ORDER BY name');
 $select->setSelected('REX_VALUE[3]');
 $select->show();
 ?>
@@ -28,7 +28,7 @@ $select = new rex_select();
 $select->setName('VALUE[4]');
 $select->setSize(1);
 $select->addOption('–', 0);
-$select->addSqlOptions('SELECT name, id FROM rex_com_group ORDER BY name');
+$select->addSqlOptions('SELECT name, id FROM rex_ycom_group ORDER BY name');
 $select->setSelected('REX_VALUE[4]');
 $select->show();
 ?>

@@ -241,9 +241,14 @@ class rex_ycom_board
 
                 if ($yform->getObjectparams('actions_executed')) {
                     $thread = rex_ycom_board_thread::get($yform->getObjectparams('main_id'));
-
+                    
                     if (isset($yform->objparams['value_pool']['email']['notifications']) && $yform->objparams['value_pool']['email']['notifications']) {
                         $thread->addNotificationUser(rex_ycom_auth::getUser());
+                    }                    
+                    
+                    // Notification Emails an alle schicken
+                    if (rex_config::get('ycom_board','send_new_thread_mail')) {
+                        ycom_board_message::send_messages($thread);
                     }
 
                     if ($thread && $thread->getId()) {
@@ -251,13 +256,22 @@ class rex_ycom_board
                         exit;
                     }
                 }
+                $fragment = new rex_fragment();
+                $fragment->setVar('form',$form, false);
+                $fragment->setVar('thread',$thread);
+                $fragment->setVar('boardthis',$this);
+                echo $fragment->parse('ycom_board_createform.php');
 
-                return $this->render('thread.create.tpl.php', compact('form'));
+//                return $this->render('thread.create.tpl.php', compact('form'));
             }
 
             $threads = $this->getThreads();
   //          dump($threads);
-            return $this->render('threads.tpl.php', compact('threads'));
+//            return $this->render('threads.tpl.php', compact('threads'));
+            $fragment = new rex_fragment();
+            $fragment->setVar('threads',$threads);
+            $fragment->setVar('boardthis',$this);            
+            echo $fragment->parse('ycom_board_threads.php');
         }
 
         if ('enable_notifications' === $function) {
@@ -286,8 +300,14 @@ class rex_ycom_board
                 header('Location: ' . htmlspecialchars_decode($this->getPostUrl($post)));
                 exit;
             }
-
-            return $this->render('post.create.tpl.php', compact('thread', 'form'));
+            
+            $fragment = new rex_fragment();
+            $fragment->setVar('form',$form, false);
+            $fragment->setVar('thread',$thread);
+            $fragment->setVar('boardthis',$this);
+            echo $fragment->parse('ycom_board_createform.php');
+            
+//            return $this->render('post.create.tpl.php', compact('thread', 'form'));
         }
 
         if ('delete' === $function && $this->isBoardAdmin() && ($id = rex_get('post', 'int')) && $post = $this->getPost($id)) {
@@ -314,10 +334,19 @@ class rex_ycom_board
             exit;
         }
 
+        if ($thread) {
+            $posts = $this->getThreadPosts($thread, $post);
+
+            $fragment = new rex_fragment();
+            $fragment->setVar('posts',$posts);
+            $fragment->setVar('boardthis',$this);
+            $fragment->setVar('thread',$thread);
+            echo $fragment->parse('ycom_board_posts.php');
+        }
         
-        $posts = $this->getThreadPosts($thread, $post);
+        
   //      dump($posts);
-        return $this->render('posts.tpl.php', compact('thread', 'posts'));
+//        return $this->render('posts.tpl.php', compact('thread', 'posts'));
     }
 
     private function deletePost(rex_ycom_board_post $post)
@@ -326,7 +355,7 @@ class rex_ycom_board
 
         if (!$post instanceof rex_ycom_board_thread) {
             if ($post->hasAttachment()) {
-                $file = rex_path::pluginData('community', 'board', 'attachments/'.$post->getRealAttachment());
+                $file = rex_path::addonData('ycom_board', 'attachments/'.$post->getRealAttachment());
                 rex_file::delete($file);
             }
 
@@ -337,7 +366,7 @@ class rex_ycom_board
         $where = 'id = '.(int) $post->getId().' OR thread_id = '.(int) $post->getId();
         $attachments = $sql->getArray('SELECT attachment FROM rex_ycom_board_post WHERE attachment != "" AND ('.$where.')');
         foreach ($attachments as $attachment) {
-            $file = rex_path::pluginData('community', 'board', 'attachments/'.$attachment['attachment']);
+            $file = rex_path::addonData('ycom_board', 'attachments/'.$attachment['attachment']);
             rex_file::delete($file);
         }
 
@@ -358,7 +387,8 @@ class rex_ycom_board
         $yform->setValidateField('empty', array('title', 'translate:com_board_enter_title'));
         $yform->setValueField('textarea', array('message', 'translate:com_board_message'));
         $yform->setValidateField('empty', array('message', 'translate:com_board_enter_message'));
-        $yform->setValueField('upload', array('attachment','translate:com_board_attachment','0,10000','.gif,.jpg,.jpeg,.png,.pdf','0',',translate:com_board_attachment_error_max_size,translate:com_board_attachment_error_type,,translate:com_board_attachment_delete','upload','rex_ycom_board_post'));
+        
+        $yform->setValueField('html',['','<div id="fileuploader">Upload</div>']);
         
         $yform->setValueField('checkbox', array('notifications', 'translate:com_board_notifications', 'no_db' => 'no_db'));
 
@@ -430,8 +460,8 @@ class rex_ycom_board
 
     private function findTemplate($template)
     {
-        $paths[] = rex_path::pluginData('ycom', 'board', 'templates/' . $template);
-        $paths[] = rex_path::plugin('ycom', 'board', 'templates/' . $template);
+        $paths[] = rex_path::addonData('ycom_board', 'templates/' . $template);
+        $paths[] = rex_path::addon('ycom_board', 'templates/' . $template);
 
         foreach ($paths as $path) {
             if (file_exists($path)) {
