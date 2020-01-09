@@ -938,7 +938,7 @@ alert(1);
 $(document).ready(function()
 {
     var uploadObj = $("#fileuploader").uploadFile({
-        url:"/index.php",
+        url:"/",
         allowedTypes:"jpg,png,pdf,gif",
         fileName:"ycom_board_file",
         returnType: "json",
@@ -949,7 +949,7 @@ $(document).ready(function()
         onLoad:function(obj) {
             $.ajax({
                 cache: false,
-                url: "/index.php",
+                url: "/",
                 data: {
                     action: "ycom_board_form_load"
                 },
@@ -963,7 +963,7 @@ $(document).ready(function()
         },                    
         deleteCallback: function(data,pd) {
             for(var i=0;i<data.length;i++) {
-                 $.post("/index.php",{action:"ycom_board_file_delete",name:data[i]},
+                 $.post("/",{action:"ycom_board_file_delete",name:data[i]},
                 function(resp, textStatus, jqXHR) {
                     //Show Message    
                     alert("File Deleted");        
